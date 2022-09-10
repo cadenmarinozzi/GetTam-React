@@ -1,0 +1,47 @@
+@use 'vars.scss' as *;
+@use 'colors.scss' as *;
+
+.button {
+    padding-block: 10px;
+    padding-inline: 15px;
+
+    border-radius: $border-radius-small;
+
+    border: 1px solid;
+
+    color: white;
+
+    display: flex;
+    flex-direction: row;
+
+    gap: 10px;
+
+    align-items: center;
+
+    cursor: pointer;
+    
+    transition: $transition;
+}
+
+.button-default {
+    background: $primary;
+    border-color: $primary;
+}
+
+.button-default:hover {
+    background: $primary-dark;
+
+    border-color: $primary-dark;
+}
+
+.button-danger {
+    background: $danger;
+
+    border-color: $danger;
+}
+
+.button-danger:hover {
+    background: $danger-dark;
+
+    border-color: $danger-dark;
+}

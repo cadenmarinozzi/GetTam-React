@@ -1,0 +1,21 @@
+@use 'vars.scss' as *;
+@use 'colors.scss' as *;
+
+.body-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .body {
+        border-top: 10px solid $border-color;
+        border-inline: 1px solid $border-color;
+        
+        border-radius: $border-radius-small;
+
+        max-width: 900px;
+
+        padding-right: .75rem;
+
+        box-shadow: 5px 0px 3px $border-color;
+    }
+}
