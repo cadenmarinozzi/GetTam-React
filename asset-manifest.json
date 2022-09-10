@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/GetTam-React/static/css/main.12c2d9ad.css",
-    "main.js": "/GetTam-React/static/js/main.c7705ba7.js",
+    "main.js": "/GetTam-React/static/js/main.1ba5ea9b.js",
     "static/media/tam.png": "/GetTam-React/static/media/tam.99a3bc2def0d38d226a7.png",
     "static/media/sanMarin.png": "/GetTam-React/static/media/sanMarin.8eab528ceba1953c136f.png",
     "static/media/branson.png": "/GetTam-React/static/media/branson.2c142abc555643256147.png",
@@ -15,10 +15,10 @@
     "static/media/sanRafael.jpeg": "/GetTam-React/static/media/sanRafael.dce665d6a4ccf57ba6f7.jpeg",
     "index.html": "/GetTam-React/index.html",
     "main.12c2d9ad.css.map": "/GetTam-React/static/css/main.12c2d9ad.css.map",
-    "main.c7705ba7.js.map": "/GetTam-React/static/js/main.c7705ba7.js.map"
+    "main.1ba5ea9b.js.map": "/GetTam-React/static/js/main.1ba5ea9b.js.map"
   },
   "entrypoints": [
     "static/css/main.12c2d9ad.css",
-    "static/js/main.c7705ba7.js"
+    "static/js/main.1ba5ea9b.js"
   ]
 }
