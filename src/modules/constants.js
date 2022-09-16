@@ -11,6 +11,7 @@ import sanRafael from 'assets/images/tiles/sanRafael.jpeg';
 import tamHigh from 'assets/images/tiles/tam.png';
 
 let constants = {
+	damping: 0.1,
 	tiles: [
 		{
 			name: 'Tamiscal',

@@ -9,22 +9,29 @@
 
     .home-header {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
 
         gap: 40px;
 
-        .home-header-start {
+        .home-header-left {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
 
-            gap: 10px;
+            gap: 40px;
 
-            .home-title {
-                color: $primary-dark;
-            }
+            .home-header-start {
+                display: flex;
+                flex-direction: row;
 
-            .home-logo {
-                width: 100px;
+                gap: 10px;
+
+                .home-title {
+                    color: $primary-dark;
+                }
+
+                .home-logo {
+                    width: 100px;
+                }
             }
         }
     }

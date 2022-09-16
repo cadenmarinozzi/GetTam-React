@@ -1,0 +1,58 @@
+.scores-container {
+    padding: 0.5% 1% 2%;
+
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+
+    column-gap: 7px;
+    row-gap: 7px;
+
+    display: inline-grid;
+
+    float: right;
+    text-align: right;
+
+    width: 240px;
+
+    cursor: pointer;
+
+    .score-label {
+        color: #cbb9b9;
+
+        font-size: 10pt;
+        font-weight: bold;
+
+        padding-top: 0px;
+        text-align: left;
+    }
+
+    .score {
+        text-align: center;
+        display: inline-block;
+
+        position: relative;
+
+        padding: 7px 10px;
+
+        color: #fff;
+        background: #1c68ba;
+
+        line-height: 1.3;
+
+        .score-value {
+            font-size: 12pt;
+            font-weight: bold;
+
+            height: 100%;
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+.scores-container:hover,
+.scores-container:focus {
+  box-shadow: 0 0 20px rgba(0, 0, 0, .30);
+}
