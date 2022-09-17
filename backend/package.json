@@ -3,7 +3,11 @@
     "displayName": "GetTam-BackEnd",
     "main": "./src/index.js",
     "dependencies": {
+        "dotenv": "^16.0.2",
         "express": "^4.18.1",
         "firebase": "^9.10.0"
+    },
+    "scripts": {
+        "start": "node ."
     }
 }
