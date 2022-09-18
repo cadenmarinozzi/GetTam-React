@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/GetTam-React/static/css/main.9e0a9f06.css",
-    "main.js": "/GetTam-React/static/js/main.ae9290cd.js",
+    "main.css": "/GetTam-React/static/css/main.d8b81014.css",
+    "main.js": "/GetTam-React/static/js/main.874e80a2.js",
     "static/media/tam.png": "/GetTam-React/static/media/tam.99a3bc2def0d38d226a7.png",
     "static/media/sanMarin.png": "/GetTam-React/static/media/sanMarin.8eab528ceba1953c136f.png",
     "static/media/branson.png": "/GetTam-React/static/media/branson.2c142abc555643256147.png",
@@ -14,11 +14,11 @@
     "static/media/mc.png": "/GetTam-React/static/media/mc.9eaba34f3ce4c51318aa.png",
     "static/media/sanRafael.jpeg": "/GetTam-React/static/media/sanRafael.dce665d6a4ccf57ba6f7.jpeg",
     "index.html": "/GetTam-React/index.html",
-    "main.9e0a9f06.css.map": "/GetTam-React/static/css/main.9e0a9f06.css.map",
-    "main.ae9290cd.js.map": "/GetTam-React/static/js/main.ae9290cd.js.map"
+    "main.d8b81014.css.map": "/GetTam-React/static/css/main.d8b81014.css.map",
+    "main.874e80a2.js.map": "/GetTam-React/static/js/main.874e80a2.js.map"
   },
   "entrypoints": [
-    "static/css/main.9e0a9f06.css",
-    "static/js/main.ae9290cd.js"
+    "static/css/main.d8b81014.css",
+    "static/js/main.874e80a2.js"
   ]
 }
