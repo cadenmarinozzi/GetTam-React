@@ -207,8 +207,7 @@ class Tile {
 
 		if (this.displayValue > bestSchool) {
 			bestSchool = this.displayValue;
-
-			parent.setSchool(constants.tiles[bestSchool - 1].name);
+			parent.setSchool(bestSchool);
 		}
 
 		let tiles = parent.tiles;

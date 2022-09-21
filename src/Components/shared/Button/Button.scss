@@ -23,6 +23,13 @@
     transition: $transition;
 }
 
+.button-regular {
+    background: transparent;
+
+    border-color: $primary;
+    color: $primary;
+}
+
 .button-default {
     background: $primary;
     border-color: $primary;
@@ -44,4 +51,9 @@
     background: $danger-dark;
 
     border-color: $danger-dark;
+}
+
+.button-regular:hover {
+    border-color: $primary-dark;
+    color: $primary-dark;
 }

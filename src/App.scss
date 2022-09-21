@@ -17,11 +17,21 @@
     gap: 10px;
 
     border-top: 10px solid $border-color;
-        border-inline: 1px solid $border-color;
-        
-        border-radius: $border-radius-small;
+    border-inline: 1px solid $border-color;
+    
+    border-radius: $border-radius-small;
 
-        padding: 20px;
+    padding: 20px;
 
-        box-shadow: 5px 0px 3px $border-color;
+    box-shadow: 5px 0px 3px $border-color;
+}
+
+
+.back-button {
+    position: fixed;
+    
+    top: 0px;
+    left: 0px;
+    
+    margin: 20px;
 }

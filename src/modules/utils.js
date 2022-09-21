@@ -1,3 +1,5 @@
+import shajs from 'sha.js';
+
 function copyToClipboard(text) {
 	navigator.clipboard.writeText(text);
 }
@@ -22,4 +24,20 @@ async function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export { copyToClipboard, randomInRange, lerp, sleep };
+function sha256(input) {
+	const hash = shajs('sha256').update(input).digest('hex');
+
+	return hash;
+}
+
+function navigate(url) {
+	let baseUrl = '/';
+
+	if (window.location.href.includes('GetTam-React')) {
+		baseUrl += 'GetTam-React/#';
+	}
+
+	window.location.href = baseUrl + url;
+}
+
+export { copyToClipboard, randomInRange, lerp, sleep, sha256, navigate };

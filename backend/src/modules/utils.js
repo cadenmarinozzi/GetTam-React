@@ -1,16 +1,14 @@
+const shajs = require('sha.js');
+
 function getRequestIp(req) {
 	return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 }
 
-function compareUser(user, otherUser, uid) {
-	return (
-		(uid ? uid === user.uid : true) &&
-		otherUser.id === user.id &&
-		otherUser.name === user.name
-	);
+function sha256(input) {
+	return shajs('sha256').update(input).digest('hex');
 }
 
 const sumPowers = (x, a, b, sum = 0) =>
 	a > b ? sum : sumPowers(x, a + 1, b, sum + x ** a);
 
-module.exports = { getRequestIp, compareUser, sumPowers };
+module.exports = { getRequestIp, sumPowers, sha256 };

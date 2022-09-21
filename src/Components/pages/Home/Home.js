@@ -11,18 +11,39 @@ import { Component } from 'react';
 import Board from 'Components/containers/Board';
 import Scores from 'Components/containers/Scores/Scores';
 import './Home.scss';
+import cookies from 'modules/cookies';
+import web from 'modules/web';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
 	constructor() {
 		super();
 
 		this.state = {
-			currentSchool: 'Tamiscal',
+			currentSchool: 1,
 			currentScore: 0,
-			bestScore: 0,
-			bestSchool: 'Tamiscal',
 		};
 	}
+
+	async componentDidMount() {
+		if (this.state.bestScore) return;
+
+		const scoreData = await web.getScoreData();
+
+		this.setState({
+			bestScore: scoreData.score,
+			bestSchool: scoreData.school,
+		});
+	}
+
+	componentDidUpdate() {
+		if (this.state.resetBoard) {
+			this.setState({
+				resetBoard: false, // This is so bad lmao
+			});
+		}
+	}
+
 	render() {
 		return (
 			<div className="home">
@@ -36,19 +57,44 @@ class Home extends Component {
 					</div>
 					<Scores
 						currentScore={this.state.currentScore}
-						currentSchool={this.state.currentSchool}
+						currentSchool={
+							constants.tiles[this.state.currentSchool - 1].name
+						}
 						bestScore={this.state.bestScore}
-						bestSchool={this.state.bestSchool}
+						bestSchool={
+							constants.tiles[this.state.bestSchool - 1]?.name
+						}
 					/>
 				</div>
 				<div className="board-container">
 					<div className="board" id="board">
 						<Board
-							setScore={(currentScore) => {
+							resetBoard={this.state.resetBoard}
+							setScore={async (currentScore) => {
+								const bestScore = parseInt(
+									cookies.get('best-score')
+								);
 								this.setState({ currentScore });
+
+								if (currentScore > bestScore) {
+									cookies.set('best-score', currentScore);
+									this.setState({ bestScore: currentScore });
+									await web.updateScore(currentScore);
+								}
 							}}
-							setSchool={(currentSchool) => {
+							setSchool={async (currentSchool) => {
+								const bestSchool = cookies.get('best-school');
+
 								this.setState({ currentSchool });
+
+								if (currentSchool > bestSchool) {
+									cookies.set('best-school', currentSchool);
+									this.setState({
+										bestSchool: currentSchool,
+									});
+
+									await web.updateSchool(currentSchool);
+								}
 							}}
 						/>
 					</div>
@@ -72,7 +118,6 @@ class Home extends Component {
 					</span>
 				</div>
 				<div className="home-buttons">
-					<Button icon={faShare} label="Share By Email" />
 					<Button
 						icon={faCopy}
 						label="Copy Link"
@@ -84,12 +129,18 @@ class Home extends Component {
 						danger
 						icon={faArrowRotateRight}
 						label="Reset Board"
+						onClick={() => {
+							this.setState({
+								resetBoard: true,
+							});
+						}}
 					/>
 				</div>
 				<div className="home-credits">
 					GetTam was created by <b>Linus Tornqvist</b>,{' '}
 					<b>Foster Angus</b>, <b>Adnan Ashraf</b>, and{' '}
-					<b>Caden Marinozzi</b>
+					<b>Caden Marinozzi</b>. See the full Credits{' '}
+					<Link to="/credits">Here</Link>.
 					<br />
 					<br />
 					Inspired by GetMit.{' '}

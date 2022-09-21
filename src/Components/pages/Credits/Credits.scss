@@ -1,0 +1,43 @@
+@use 'vars.scss' as *;
+@use 'colors.scss' as *;
+
+.credits {
+    margin: $body-margin;
+
+    width: calc(100% - ($body-margin * 2));
+    height: calc(100% - ($body-margin * 2));
+
+    .credits-header {
+        text-align: center;
+
+        .credits-title {
+            color: $primary-dark;
+        }
+
+        margin-bottom: 40px;
+    }
+
+    .credits-list {
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        text-align: center;
+
+        gap: 20px;
+
+        .credits-item {
+            color: black;
+        }
+
+        .built-with {
+            margin-top: 20px;
+
+            color: $primary-dark;
+
+            .built-with-title {
+                margin-bottom: 20px;
+            }
+        }
+    }
+}

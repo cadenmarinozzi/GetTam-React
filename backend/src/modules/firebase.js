@@ -1,14 +1,8 @@
+const constants = require('./constants');
+const { sha256 } = require('./utils');
 const { initializeApp } = require('firebase/app');
 const { config } = require('dotenv');
-const { compareUser } = require('./utils.js');
-const {
-	ref,
-	get,
-	getDatabase,
-	update,
-	child,
-	set,
-} = require('firebase/database');
+const { ref, get, getDatabase, update, child } = require('firebase/database');
 
 config();
 
@@ -25,8 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const blacklistRef = ref(database, 'blacklist');
-const usersRef = ref(database, 'test');
-const leaderboardRef = ref(database, 'Leaderboard');
+const usersRef = ref(database, 'users');
 
 async function getBlacklist() {
 	const blacklist = await get(blacklistRef);
@@ -34,60 +27,14 @@ async function getBlacklist() {
 	return blacklist.exists() && blacklist.val();
 }
 
-async function getLeaderboard() {
-	const leaderboard = await get(leaderboardRef);
-
-	return leaderboard.exists() && leaderboard.val();
-}
-
 async function isUserBlacklisted(identifiers) {
 	const blacklist = await getBlacklist();
 
 	for (const identifier of identifiers) {
-		if (Object.values(blacklist).includes(identifier)) {
+		if (blacklist[identifier]) {
 			return true;
 		}
 	}
-}
-
-async function updateUserScore({ uid, id, name, score }) {
-	update(child(usersRef, uid), { id, name, score: score });
-}
-
-async function updateLeaderboard(user) {
-	let leaderboard = await getLeaderboard();
-	let updated = false;
-
-	for (const player of Object.values(leaderboard)) {
-		if (!compareUser(user, player)) continue;
-
-		player.score = user.score;
-		updated = true;
-
-		break;
-	}
-
-	if (!updated && leaderboard) {
-		leaderboard.push({
-			id: user.id,
-			name: user.name,
-			score: user.score,
-		});
-	}
-
-	if (!leaderboard) {
-		leaderboard = [
-			{
-				id: user.id,
-				name: user.name,
-				score: user.score,
-			},
-		];
-
-		leaderboard.sort((a, b) => b.score - a.score);
-	}
-
-	await set(leaderboardRef, leaderboard);
 }
 
 async function getUsers() {
@@ -96,18 +43,44 @@ async function getUsers() {
 	return users.exists() && users.val();
 }
 
-async function createUser({ uid, id, name }) {
-	await update(child(usersRef, uid), { id, name, score: 0 });
-}
-
-async function userExists(user) {
+async function getUser({ username }) {
 	const users = await getUsers();
 
-	for (const [uid, player] of Object.entries(users)) {
-		if (compareUser(user, player, uid)) {
-			return true;
-		}
-	}
+	return users && users[username];
+}
+
+async function createUser({ username, password }) {
+	await update(child(usersRef, username), {
+		password: sha256(password),
+		score: 0,
+		school: 1,
+	});
+}
+
+async function userExists({ username }) {
+	const user = await getUser({ username });
+
+	return !!user;
+}
+
+async function updateScore({ username, score }) {
+	await update(child(usersRef, username), { score });
+}
+
+async function updateSchool({ username, school }) {
+	await update(child(usersRef, username), { school });
+}
+
+async function getScoreData({ username }) {
+	const user = await getUser({ username });
+
+	return user && { score: user.score, school: user.school };
+}
+
+async function login({ username, password }) {
+	const user = await getUser({ username });
+
+	return user && user.password === sha256(password);
 }
 
 // eslint-disable-next-line
@@ -115,7 +88,9 @@ module.exports = {
 	isUserBlacklisted,
 	createUser,
 	userExists,
-	getLeaderboard,
-	updateLeaderboard,
-	updateUserScore,
+	login,
+	updateScore,
+	updateSchool,
+	getScoreData,
+	getUsers,
 };

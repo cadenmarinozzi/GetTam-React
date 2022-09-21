@@ -10,17 +10,7 @@ app.get('*', (req, res) => {
 	res.status(200).end('https://lankmann.github.io/GetTam/');
 });
 
-app.get('/get/Leaderboard', async (req, res) => {
-	try {
-		const leaderboard = await firebase.getLeaderboard();
-		res.status(200).json(leaderboard);
-	} catch (err) {
-		console.error(err);
-		res.status(500).end('Internal Server Error');
-	}
-});
-
-app.post('/update/Leaderboard', async (req, res) => {
+app.post('/login/user', async (req, res) => {
 	try {
 		const requestIp = getRequestIp(req);
 		const user = req.body;
@@ -33,7 +23,7 @@ app.post('/update/Leaderboard', async (req, res) => {
 			return res.status(400).end('Invalid User');
 		}
 
-		if (await firebase.isUserBlacklisted([requestIp, user.id, user.name])) {
+		if (await firebase.isUserBlacklisted([requestIp, user.username])) {
 			return res.status(403).end('User Is Blacklisted');
 		}
 
@@ -41,13 +31,11 @@ app.post('/update/Leaderboard', async (req, res) => {
 			return res.status(400).end('User Does Not Exist');
 		}
 
-		if (validation.validateScore(user.score)) {
-			await firebase.updateLeaderboard(user);
-
-			return res.status(200).end('OK');
+		if (!(await firebase.login(user))) {
+			return res.status(200).end('User Is Not Logged In');
 		}
 
-		res.status(400).end('Invalid Score');
+		return res.status(200).end('OK');
 	} catch (err) {
 		console.error(err);
 		res.status(500).end('Internal Server Error');
@@ -67,7 +55,7 @@ app.post('/update/user/score', async (req, res) => {
 			return res.status(400).end('Invalid User');
 		}
 
-		if (await firebase.isUserBlacklisted([requestIp, user.id, user.name])) {
+		if (await firebase.isUserBlacklisted([requestIp, user.username])) {
 			return res.status(403).end('User Is Blacklisted');
 		}
 
@@ -75,13 +63,132 @@ app.post('/update/user/score', async (req, res) => {
 			return res.status(400).end('User Does Not Exist');
 		}
 
-		if (validation.validateScore(user.score)) {
-			await firebase.updateUserScore(user);
-
-			return res.status(200).end('OK');
+		if (!(await firebase.login(user))) {
+			return res.status(403).end('User Is Not Logged In');
 		}
 
-		res.status(400).end('Invalid Score');
+		if (!validation.validateScore(user.score)) {
+			return res.status(400).end('Invalid Score');
+		}
+
+		await firebase.updateScore(user);
+
+		return res.status(200).end('OK');
+	} catch (err) {
+		console.error(err);
+		res.status(500).end('Internal Server Error');
+	}
+});
+
+app.post('/get/users', async (req, res) => {
+	try {
+		const requestIp = getRequestIp(req);
+		const user = req.body;
+
+		if (!validation.validateIp(requestIp)) {
+			return res.status(400).end('Invalid IP');
+		}
+
+		if (!validation.validateUser(user)) {
+			return res.status(400).end('Invalid User');
+		}
+
+		if (await firebase.isUserBlacklisted([requestIp, user.username])) {
+			return res.status(403).end('User Is Blacklisted');
+		}
+
+		if (!(await firebase.userExists(user))) {
+			return res.status(400).end('User Does Not Exist');
+		}
+
+		if (!(await firebase.login(user))) {
+			return res.status(403).end('User Is Not Logged In');
+		}
+
+		const users = await firebase.getUsers(user);
+		let clientUsers = [];
+
+		for (const [username, user] of Object.entries(users)) {
+			clientUsers.push({
+				score: user.score,
+				username: username,
+				school: user.school,
+			});
+		}
+
+		return res.status(200).json(clientUsers);
+	} catch (err) {
+		console.error(err);
+		res.status(500).end('Internal Server Error');
+	}
+});
+
+app.post('/update/user/school', async (req, res) => {
+	try {
+		const requestIp = getRequestIp(req);
+		const user = req.body;
+
+		if (!validation.validateIp(requestIp)) {
+			return res.status(400).end('Invalid IP');
+		}
+
+		if (!validation.validateUser(user)) {
+			return res.status(400).end('Invalid User');
+		}
+
+		if (await firebase.isUserBlacklisted([requestIp, user.username])) {
+			return res.status(403).end('User Is Blacklisted');
+		}
+
+		if (!(await firebase.userExists(user))) {
+			return res.status(400).end('User Does Not Exist');
+		}
+
+		if (!(await firebase.login(user))) {
+			return res.status(403).end('User Is Not Logged In');
+		}
+
+		if (!validation.validateSchool(user.school)) {
+			return res.status(400).end('Invalid School');
+		}
+
+		await firebase.updateSchool(user);
+
+		return res.status(200).end('OK');
+	} catch (err) {
+		console.error(err);
+		res.status(500).end('Internal Server Error');
+	}
+});
+
+app.post('/get/user/scoreData', async (req, res) => {
+	try {
+		const requestIp = getRequestIp(req);
+		const user = req.body;
+
+		if (!validation.validateIp(requestIp)) {
+			return res.status(400).end('Invalid IP');
+		}
+
+		if (!validation.validateUser(user)) {
+			return res.status(400).end('Invalid User');
+		}
+
+		if (await firebase.isUserBlacklisted([requestIp, user.username])) {
+			return res.status(403).end('User Is Blacklisted');
+		}
+
+		if (!(await firebase.userExists(user))) {
+			return res.status(400).end('User Does Not Exist');
+		}
+
+		if (!(await firebase.login(user))) {
+			return res.status(403).end('User Is Not Logged In');
+		}
+
+		const scoreData = await firebase.getScoreData(user);
+
+		res.status(200).json(scoreData);
 	} catch (err) {
 		console.error(err);
 		res.status(500).end('Internal Server Error');
@@ -101,7 +208,7 @@ app.post('/create/user', async (req, res) => {
 			return res.status(400).end('Invalid User');
 		}
 
-		if (await firebase.isUserBlacklisted([requestIp, user.id, user.name])) {
+		if (await firebase.isUserBlacklisted([requestIp, user.username])) {
 			return res.status(403).end('User Is Blacklisted');
 		}
 

@@ -1,23 +1,30 @@
 const constants = require('./constants');
 
 function validateIp(ip) {
-	return constants.ipRegex.test(ip) || ip === '::ffff:127.0.0.1'; // Testing
+	return (
+		constants.ipRegex.test(ip) || ip === '::ffff:127.0.0.1' || ip === '::1'
+	); // Testing
 }
 
-function validateId(id) {
-	return constants.idRegex.test(id);
+function validatePassword(password) {
+	return typeof password === 'string' && password.length > 0;
 }
 
-function validateName(name) {
+function validateSchool(school) {
+	// return constants.schools.includes(school);
+	return (
+		typeof school === 'number' &&
+		school >= 0 &&
+		school < constants.schools.length
+	);
+}
+
+function validateUsername(name) {
 	return typeof name === 'string' && name.length > 0;
 }
 
-function validateUid(uid) {
-	return typeof uid === 'string';
-}
-
-function validateUser({ uid, id, name }) {
-	return validateUid(uid) && validateId(id) && validateName(name);
+function validateUser({ username, password }) {
+	return validateUsername(username) && validatePassword(password);
 }
 
 function validateScore(score) {
@@ -32,4 +39,4 @@ function validateScore(score) {
 	);
 }
 
-module.exports = { validateIp, validateUser, validateScore };
+module.exports = { validateIp, validateUser, validateScore, validateSchool };

@@ -4,6 +4,7 @@ import Sketch from 'react-p5';
 import constants from 'modules/constants';
 import { randomInRange } from 'modules/utils';
 import Button from './Button';
+import cookies from 'modules/cookies';
 
 const size = 600 / 4;
 
@@ -154,6 +155,13 @@ class Board extends Component {
 			if (!this.full && this.moved) {
 				this.addTile();
 			}
+
+			const cookieTiles = this.tiles.map((row) =>
+				row.map((tile) => tile.value || 0)
+			);
+
+			cookies.set('tiles', JSON.stringify(cookieTiles));
+			cookies.set('score', this.score);
 		}
 	}
 
@@ -216,10 +224,9 @@ class Board extends Component {
 			Math.max(130, 3 * this.overlayAlpha - 130) - 130;
 
 		this.restartButton.display(this.textOverlayAlpha);
-	}
 
-	restart() {
-		this.setup(this.p5, this.canvasParentRef);
+		cookies.set('tiles', null);
+		cookies.set('score', null);
 	}
 
 	setup(p5, canvasParentRef) {
@@ -229,7 +236,8 @@ class Board extends Component {
 		this.won = false;
 		this.lost = false;
 
-		this.score = 0;
+		this.score = parseInt(cookies.get('score')) || 0;
+		this.setScore(this.score);
 
 		this.tiles = [];
 
@@ -247,7 +255,7 @@ class Board extends Component {
 			'Restart',
 			616 / 2,
 			616 / 2,
-			this.restart.bind(this),
+			this.reset.bind(this),
 			p5
 		);
 
@@ -286,19 +294,39 @@ class Board extends Component {
 			}
 		});
 
-		for (let i = 0; i < 4; i++) {
-			this.tiles.push([]);
+		let cookieTiles = cookies.get('tiles');
 
-			for (let j = 0; j < 4; j++) {
-				this.tiles[i].push(0);
+		if (cookieTiles) {
+			cookieTiles = JSON.parse(cookieTiles);
+			console.log(cookieTiles);
+			for (let i = 0; i < 4; i++) {
+				this.tiles.push([]);
+
+				for (let j = 0; j < 4; j++) {
+					const value = parseInt(cookieTiles[i][j]);
+
+					if (value !== 0) {
+						this.tiles[i].push(new Tile(i, j, value, this));
+					} else {
+						this.tiles[i].push(0);
+					}
+				}
 			}
-		}
+		} else {
+			for (let i = 0; i < 4; i++) {
+				this.tiles.push([]);
 
-		for (let i = 0; i < 2; i++) {
-			const x = Math.floor(randomInRange(4));
-			const y = Math.floor(randomInRange(4));
+				for (let j = 0; j < 4; j++) {
+					this.tiles[i].push(0);
+				}
+			}
 
-			this.tiles[x][y] = new Tile(x, y, this.tileOdds(), this);
+			for (let i = 0; i < 2; i++) {
+				const x = Math.floor(randomInRange(4));
+				const y = Math.floor(randomInRange(4));
+
+				this.tiles[x][y] = new Tile(x, y, this.tileOdds(), this);
+			}
 		}
 
 		this.rows = transpose(this.tiles);
@@ -334,7 +362,17 @@ class Board extends Component {
 		this.movement.set(0, 0);
 	}
 
+	reset() {
+		cookies.set('tiles', null);
+		cookies.set('score', null);
+		this.setup(this.p5, this.canvasParentRef);
+	}
+
 	render() {
+		if (this.props.resetBoard) {
+			this.reset();
+		}
+
 		return (
 			this.sketch || (
 				<Sketch
