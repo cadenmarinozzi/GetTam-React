@@ -1,5 +1,6 @@
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Button from 'Components/shared/Button';
+import cookies from 'modules/cookies';
 import web from 'modules/web';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
@@ -52,7 +53,15 @@ class Leaderboard extends Component {
 									return (
 										<tr key={index}>
 											<td>{index + 1}</td>
-											<td>{user.username}</td>
+											<td
+												className={`${
+													user.username ===
+														cookies.get(
+															'username'
+														) && 'active-user'
+												}`}>
+												{user.username}
+											</td>
 											<td>{user.score}</td>
 										</tr>
 									);

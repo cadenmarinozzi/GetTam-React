@@ -81,6 +81,10 @@
                     text-align: right;
                     font-weight: bold;
                 }
+
+                td.active-user {
+                    color: $leaderboard-color-1;
+                }
             }
         }
     }

@@ -73,14 +73,7 @@ class App extends Component {
 			</Routes>
 		);
 
-		return (
-			this.state.loaded &&
-			(window.location.href.includes('GetTam-React') ? (
-				<BrowserRouter>{routes}</BrowserRouter>
-			) : (
-				<HashRouter>{routes}</HashRouter>
-			))
-		);
+		return this.state.loaded && <HashRouter>{routes}</HashRouter>;
 	}
 }
 

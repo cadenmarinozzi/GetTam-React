@@ -22,11 +22,9 @@ class Login extends Component {
 				if (await web.login(this.state)) {
 					cookies.set('username', this.state.username);
 					cookies.set('password', this.state.password);
-					navigate('/');
 
-					this.setState({
-						error: false,
-					});
+					navigate('/');
+					window.location.reload(); // Idk why but this is needed to update the router
 
 					return;
 				}

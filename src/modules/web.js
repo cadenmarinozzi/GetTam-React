@@ -1,7 +1,7 @@
 import axios from 'axios';
 import cookies from './cookies';
 
-const baseUrl = 'http://localhost:5000/';
+const baseUrl = 'https://gettam.herokuapp.com/';
 
 axios.defaults.baseURL = baseUrl;
 
@@ -40,10 +40,10 @@ async function getUsers() {
 	return response.data;
 }
 
-async function login() {
+async function login({ username, password }) {
 	const response = await axios.post('login/user', {
-		username: cookies.get('username'),
-		password: cookies.get('password'),
+		username: cookies.get('username') || username,
+		password: cookies.get('password') || password,
 	});
 
 	return response.data;

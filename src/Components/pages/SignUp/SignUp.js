@@ -24,7 +24,7 @@ class SignUp extends Component {
 		) {
 			cookies.set('username', this.state.username);
 			cookies.set('password', this.state.password);
-			navigate('');
+			navigate('/');
 
 			this.setState({
 				error: false,
