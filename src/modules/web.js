@@ -22,6 +22,15 @@ async function signUp({ username, password }) {
 	return response.data;
 }
 
+async function sendLegacyRequest({ email, username }) {
+	const response = await axios.post('legacy/request', {
+		email,
+		username,
+	});
+
+	return response.data;
+}
+
 async function getUsers() {
 	const response = await axios.post('get/users', {
 		username: cookies.get('username'),
@@ -77,4 +86,5 @@ export default {
 	updateScore,
 	updateSchool,
 	getUsers,
+	sendLegacyRequest,
 };

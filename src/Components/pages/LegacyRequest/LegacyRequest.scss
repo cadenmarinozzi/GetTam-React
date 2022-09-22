@@ -1,0 +1,24 @@
+@use 'colors.scss' as *;
+@use 'vars.scss' as *;
+
+.legacy-request {
+    margin: $body-margin;
+
+    width: calc(100% - ($body-margin * 2));
+    height: calc(100% - ($body-margin * 2));
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 20px;
+
+    text-align: center;
+
+    .legacy-request-title {
+        color: $primary-dark;
+
+        margin-bottom: 40px;
+    }
+}

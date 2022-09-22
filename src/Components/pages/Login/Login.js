@@ -69,6 +69,12 @@ class Login extends Component {
 							});
 						}}
 					/>
+					<Link to="/legacy-request">
+						<span className="returning-user-label">
+							Coming from GetTam V1? Click to request account
+							access.
+						</span>
+					</Link>
 					<div className="login-buttons">
 						<Button label="Login" onClick={this.login.bind(this)} />
 						<span>or</span>

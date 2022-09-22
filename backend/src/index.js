@@ -2,12 +2,42 @@ const express = require('express');
 const { getRequestIp } = require('./modules/utils.js');
 const validation = require('./modules/validation.js');
 const firebase = require('./modules/firebase.js');
+const sendEmail = require('./modules/mail');
 
 const app = express();
 app.use(express.json());
 
 app.get('*', (req, res) => {
 	res.status(200).end('https://lankmann.github.io/GetTam/');
+});
+
+app.post('/legacy/request', async (req, res) => {
+	try {
+		const requestIp = getRequestIp(req);
+		const user = req.body;
+
+		if (!validation.validateIp(requestIp)) {
+			return res.status(400).end('Invalid IP');
+		}
+
+		if (await firebase.isUserBlacklisted([requestIp])) {
+			return res.status(403).end('User Is Blacklisted');
+		}
+		if (!validation.validateEmail(user.email)) {
+			return res.status(400).end('Invalid school email');
+		}
+
+		sendEmail({
+			toEmail: process.env.MAILER_EMAIL,
+			subject: 'GetTam Legacy Request',
+			body: `Legacy Account Requested for: ${user.username}. Email: ${user.email}`,
+		});
+
+		res.status(200).end('OK');
+	} catch (err) {
+		console.error(err);
+		res.status(500).end('Internal Server Error');
+	}
 });
 
 app.post('/login/user', async (req, res) => {

@@ -1,5 +1,12 @@
 const { config } = require('dotenv');
-const { ref, get, getDatabase, update, child } = require('firebase/database');
+const {
+	ref,
+	get,
+	getDatabase,
+	update,
+	child,
+	set,
+} = require('firebase/database');
 const { initializeApp } = require('firebase/app');
 
 config();
@@ -26,14 +33,37 @@ const oldFirebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-const databaseRef = ref(database);
+const usersRef = ref(database, 'users');
 
-const oldApp = initializeApp(oldFirebaseConfig);
+const oldApp = initializeApp(oldFirebaseConfig, 'old');
 const oldDatabase = getDatabase(oldApp);
-const oldDatabaseRef = ref(oldDatabase);
+const oldUsersRef = ref(oldDatabase, 'test');
 
 async function getDatabaseData(ref) {
 	const databaseData = await get(ref);
 
 	return databaseData.exists() && databaseData.val();
 }
+
+async function mainRun() {
+	let oldUsers = await getDatabaseData(oldUsersRef);
+	let newUsers = {};
+
+	for (const uid in oldUsers) {
+		const oldUser = oldUsers[uid];
+
+		if (!oldUser) continue;
+		if (!oldUser.name) continue;
+
+		newUsers[
+			oldUser.name.replace(/(\\)|(\/)|(\.)|(\$)|(#)|(\[)|(\])/g, '_')
+		] = {
+			legacy: true,
+			score: oldUser.score,
+		};
+	}
+
+	await update(usersRef, newUsers);
+}
+
+mainRun();

@@ -19,6 +19,11 @@ function validateSchool(school) {
 	);
 }
 
+function validateEmail(email) {
+	console.log(email);
+	return constants.emailRegex.test(email);
+}
+
 function validateUsername(name) {
 	return typeof name === 'string' && name.length > 0;
 }
@@ -39,4 +44,10 @@ function validateScore(score) {
 	);
 }
 
-module.exports = { validateIp, validateUser, validateScore, validateSchool };
+module.exports = {
+	validateIp,
+	validateUser,
+	validateScore,
+	validateSchool,
+	validateEmail,
+};

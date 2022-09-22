@@ -4,11 +4,12 @@ import { Component } from 'react';
 import web from './modules/web';
 import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
 import cookies from './modules/cookies';
-import Login from 'Components/containers/Login/Login';
-import SignUp from 'Components/containers/SignUp';
+import Login from 'Components/pages/Login';
+import SignUp from 'Components/pages/SignUp';
 import './App.scss';
 import Leaderboard from 'Components/pages/Leaderboard';
-import Credits from 'Components/pages/Credits/Credits';
+import Credits from 'Components/pages/Credits';
+import LegacyRequest from 'Components/pages/LegacyRequest';
 
 class App extends Component {
 	constructor() {
@@ -33,11 +34,16 @@ class App extends Component {
 
 				cookies.set('best-school', scoreData.school);
 				cookies.set('best-score', scoreData.score);
+			} else {
+				cookies.set('tiles', null);
+				cookies.set('score', null);
 			}
 
 			cookies.set('logged-in', loggedIn);
 			this.setState({ loggedIn: loggedIn, loaded: true });
 		} else {
+			cookies.set('tiles', null);
+			cookies.set('score', null);
 			this.setState({ loggedIn: false, loaded: true });
 		}
 	}
@@ -56,6 +62,14 @@ class App extends Component {
 				<Route path="*" element={<Login />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/signUp" element={<SignUp />} />
+				<Route
+					path="/legacy-request"
+					element={
+						<Body>
+							<LegacyRequest />
+						</Body>
+					}
+				/>
 			</Routes>
 		);
 
