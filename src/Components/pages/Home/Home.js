@@ -53,7 +53,6 @@ class Home extends Component {
 							<img className="home-logo" src={logo} alt="Logo" />
 							<h1 className="home-title">GetTam</h1>
 						</div>
-						<span>Combine Marin Schools to get Tam!</span>
 					</div>
 					<Scores
 						currentScore={this.state.currentScore}

@@ -3,9 +3,12 @@ const { getRequestIp } = require('./modules/utils.js');
 const validation = require('./modules/validation.js');
 const firebase = require('./modules/firebase.js');
 const sendEmail = require('./modules/mail');
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
+app.options('*', cors());
 
 app.get('*', (req, res) => {
 	res.status(200).end('https://lankmann.github.io/GetTam/');
@@ -257,5 +260,5 @@ app.post('/create/user', async (req, res) => {
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-	console.log(`GetTam-Backend Running on port ${port}`);
+	console.log(`GetTam Backend Running on port ${port}`);
 });
