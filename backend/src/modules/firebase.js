@@ -24,7 +24,7 @@ const usersRef = ref(database, 'users');
 async function getBlacklist() {
 	const blacklist = await get(blacklistRef);
 
-	return blacklist.exists() && blacklist.val();
+	return blacklist.exists() ? blacklist.val() : [];
 }
 
 async function isUserBlacklisted(identifiers) {
@@ -43,44 +43,47 @@ async function getUsers() {
 	return users.exists() && users.val();
 }
 
-async function getUser({ username }) {
+async function getUser({ userId }) {
 	const users = await getUsers();
 
-	return users && users[username];
+	return users && users[userId];
 }
 
-async function createUser({ username, password }) {
-	await update(child(usersRef, username), {
-		password: sha256(password),
+async function createUser({ userId, password, username }) {
+	await update(child(usersRef, userId), {
+		// password: sha256(password),
+		username,
 		score: 0,
 		school: 1,
 	});
 }
 
-async function userExists({ username }) {
-	const user = await getUser({ username });
+async function userExists({ userId }) {
+	const user = await getUser({ userId });
 
 	return !!user;
 }
 
-async function updateScore({ username, score }) {
-	await update(child(usersRef, username), { score });
+async function updateScore({ userId, score }) {
+	await update(child(usersRef, userId), { score });
 }
 
-async function updateSchool({ username, school }) {
-	await update(child(usersRef, username), { school });
+async function updateSchool({ userId, school }) {
+	await update(child(usersRef, userId), { school });
 }
 
-async function getScoreData({ username }) {
-	const user = await getUser({ username });
+async function getScoreData({ userId }) {
+	const user = await getUser({ userId });
 
 	return user && { score: user.score, school: user.school };
 }
 
 async function login({ username, password }) {
-	const user = await getUser({ username });
+	// const user = await getUser({ username });
 
-	return user && user.password === sha256(password);
+	// return user && user.password === sha256(password);
+
+	return true;
 }
 
 // eslint-disable-next-line

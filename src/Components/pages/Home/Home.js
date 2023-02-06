@@ -10,10 +10,10 @@ import { copyToClipboard } from 'modules/utils';
 import { Component } from 'react';
 import Board from 'Components/containers/Board';
 import Scores from 'Components/containers/Scores/Scores';
-import './Home.scss';
 import cookies from 'modules/cookies';
 import web from 'modules/web';
 import { Link } from 'react-router-dom';
+import './Home.scss';
 
 class Home extends Component {
 	constructor() {
@@ -136,9 +136,9 @@ class Home extends Component {
 					/>
 				</div>
 				<div className="home-credits">
-					GetTam was created by <b>Linus Tornqvist</b>,{' '}
-					<b>Foster Angus</b>, <b>Adnan Ashraf</b>, and{' '}
-					<b>Caden Marinozzi</b>. See the full Credits{' '}
+					GetTam was created by <b>Caden Marinozzi</b>,{' '}
+					<b>Linus Tornqvist</b>, <b>Foster Angus</b>, and{' '}
+					<b>Adnan Ashraf</b>. See the full Credits{' '}
 					<Link to="/credits">Here</Link>.
 					<br />
 					<br />

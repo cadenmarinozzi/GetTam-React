@@ -141,10 +141,11 @@ app.post('/get/users', async (req, res) => {
 		const users = await firebase.getUsers(user);
 		let clientUsers = [];
 
-		for (const [username, user] of Object.entries(users)) {
+		for (const [userId, user] of Object.entries(users)) {
 			clientUsers.push({
+				userId: userId,
 				score: user.score,
-				username: username,
+				username: user.username,
 				school: user.school,
 			});
 		}

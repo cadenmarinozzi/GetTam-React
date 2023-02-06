@@ -6,8 +6,8 @@ import cookies from 'modules/cookies';
 import web from 'modules/web';
 import { navigate } from 'modules/utils';
 import { Component } from 'react';
-import './Login.scss';
 import { Link } from 'react-router-dom';
+import './Login.scss';
 
 class Login extends Component {
 	constructor() {

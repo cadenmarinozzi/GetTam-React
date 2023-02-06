@@ -5,12 +5,12 @@ const baseUrl = 'https://gettam.herokuapp.com/';
 
 axios.defaults.baseURL = baseUrl;
 
-async function signUp({ username, password }) {
+async function signUp({ userId, username }) {
 	const response = await axios.post(
 		'create/user',
 		{
+			userId,
 			username,
-			password,
 		},
 		{
 			headers: {
@@ -33,8 +33,9 @@ async function sendLegacyRequest({ email, username }) {
 
 async function getUsers() {
 	const response = await axios.post('get/users', {
-		username: cookies.get('username'),
-		password: cookies.get('password'),
+		// username: cookies.get('username'),
+		// password: cookies.get('password'),
+		userId: cookies.get('user-id'),
 	});
 
 	return response.data;
@@ -42,8 +43,9 @@ async function getUsers() {
 
 async function login({ username, password }) {
 	const response = await axios.post('login/user', {
-		username: cookies.get('username') || username,
-		password: cookies.get('password') || password,
+		// username: cookies.get('username') || username,
+		// password: cookies.get('password') || password,
+		userId: cookies.get('user-id'),
 	});
 
 	return response.data;
@@ -51,8 +53,9 @@ async function login({ username, password }) {
 
 async function getScoreData() {
 	const response = await axios.post('get/user/scoreData', {
-		username: cookies.get('username'),
-		password: cookies.get('password'),
+		// username: cookies.get('username'),
+		// password: cookies.get('password'),
+		userId: cookies.get('user-id'),
 	});
 
 	return response.data;
@@ -60,8 +63,9 @@ async function getScoreData() {
 
 async function updateScore(score) {
 	const response = await axios.post('update/user/score', {
-		username: cookies.get('username'),
-		password: cookies.get('password'),
+		// username: cookies.get('username'),
+		// password: cookies.get('password'),
+		userId: cookies.get('user-id'),
 		score,
 	});
 
@@ -70,8 +74,9 @@ async function updateScore(score) {
 
 async function updateSchool(school) {
 	const response = await axios.post('update/user/school', {
-		username: cookies.get('username'),
-		password: cookies.get('password'),
+		// username: cookies.get('username'),
+		// password: cookies.get('password'),
+		userId: cookies.get('user-id'),
 		school,
 	});
 

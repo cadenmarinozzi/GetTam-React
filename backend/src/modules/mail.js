@@ -7,7 +7,7 @@ function sendEmail({ toEmail, subject, body }) {
 		subject: 'GetTam Legacy Request',
 		text: `Legacy Request successfully submitted! Once we have reviewed your request we will send you an email with your credentials.`,
 	};
-	console.log(process.env.MAILER_EMAIL, process.env.MAILER_PASSWORD);
+
 	const transport = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {

@@ -6,10 +6,11 @@ import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
 import cookies from './modules/cookies';
 import Login from 'Components/pages/Login';
 import SignUp from 'Components/pages/SignUp';
-import './App.scss';
 import Leaderboard from 'Components/pages/Leaderboard';
 import Credits from 'Components/pages/Credits';
+import { v4 as uuid } from 'uuid';
 import LegacyRequest from 'Components/pages/LegacyRequest';
+import './App.scss';
 
 class App extends Component {
 	constructor() {
@@ -19,32 +20,43 @@ class App extends Component {
 	}
 
 	async componentDidMount() {
-		const username = cookies.get('username');
-		const password = cookies.get('password');
+		// const username = cookies.get('username');
+		// const password = cookies.get('password');
+		// if (username && password) {
+		// 	let loggedIn = false;
+		// 	try {
+		// 		loggedIn = await web.login({ username, password });
+		// 	} catch (err) {}
+		// 	if (loggedIn) {
+		// 		const scoreData = await web.getScoreData();
+		// 		cookies.set('best-school', scoreData.school);
+		// 		cookies.set('best-score', scoreData.score);
+		// 	} else {
+		// 		cookies.set('tiles', null);
+		// 		cookies.set('score', null);
+		// 	}
+		// 	cookies.set('logged-in', loggedIn);
+		// 	this.setState({ loggedIn: loggedIn, loaded: true });
+		// } else {
+		// 	cookies.set('tiles', null);
+		// 	cookies.set('score', null);
+		// 	this.setState({ loggedIn: false, loaded: true });
+		// }
 
-		if (username && password) {
-			let loggedIn = false;
+		if (!cookies.get('user-id')) {
+			const userId = uuid();
+			cookies.set('user-id', userId);
 
-			try {
-				loggedIn = await web.login({ username, password });
-			} catch (err) {}
-
-			if (loggedIn) {
-				const scoreData = await web.getScoreData();
-
-				cookies.set('best-school', scoreData.school);
-				cookies.set('best-score', scoreData.score);
-			} else {
-				cookies.set('tiles', null);
-				cookies.set('score', null);
-			}
-
-			cookies.set('logged-in', loggedIn);
-			this.setState({ loggedIn: loggedIn, loaded: true });
+			this.setState({
+				loaded: true,
+			});
 		} else {
-			cookies.set('tiles', null);
-			cookies.set('score', null);
-			this.setState({ loggedIn: false, loaded: true });
+			const userId = cookies.get('user-id');
+			const scoreData = await web.getScoreData(userId);
+			cookies.set('best-school', scoreData.school);
+			cookies.set('best-score', scoreData.score);
+
+			this.setState({ loggedIn: true, loaded: true });
 		}
 	}
 
@@ -59,8 +71,8 @@ class App extends Component {
 			</Body>
 		) : (
 			<Routes>
-				<Route path="*" element={<Login />} />
-				<Route path="/login" element={<Login />} />
+				<Route path="*" element={<SignUp />} />
+				{/* <Route path="/login" element={<Login />} /> */}
 				<Route path="/signUp" element={<SignUp />} />
 				<Route
 					path="/legacy-request"
@@ -73,7 +85,7 @@ class App extends Component {
 			</Routes>
 		);
 
-		return this.state.loaded && <HashRouter>{routes}</HashRouter>;
+		return this.state.loaded && <BrowserRouter>{routes}</BrowserRouter>;
 	}
 }
 

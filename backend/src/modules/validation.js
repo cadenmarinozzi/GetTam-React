@@ -7,11 +7,11 @@ function validateIp(ip) {
 }
 
 function validatePassword(password) {
-	return typeof password === 'string' && password.length > 0;
+	return true;
+	// return typeof password === 'string' && password.length > 0;
 }
 
 function validateSchool(school) {
-	// return constants.schools.includes(school);
 	return (
 		typeof school === 'number' &&
 		school >= 0 &&
@@ -20,7 +20,6 @@ function validateSchool(school) {
 }
 
 function validateEmail(email) {
-	console.log(email);
 	return constants.emailRegex.test(email);
 }
 
@@ -29,7 +28,8 @@ function validateUsername(name) {
 }
 
 function validateUser({ username, password }) {
-	return validateUsername(username) && validatePassword(password);
+	return true;
+	// return validateUsername(username) && validatePassword(password);
 }
 
 function validateScore(score) {

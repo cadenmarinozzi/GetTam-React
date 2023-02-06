@@ -5,9 +5,8 @@ import Input from 'Components/shared/Input';
 import cookies from 'modules/cookies';
 import web from 'modules/web';
 import { Component } from 'react';
-import { navigate } from 'modules/utils';
 import './SignUp.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 class SignUp extends Component {
 	constructor() {
@@ -17,14 +16,28 @@ class SignUp extends Component {
 	}
 
 	async signUp() {
-		if (
-			this.state.username &&
-			this.state.password &&
-			(await web.signUp(this.state))
-		) {
-			cookies.set('username', this.state.username);
-			cookies.set('password', this.state.password);
-			navigate('/');
+		// if (
+		// 	this.state.username &&
+		// 	this.state.password &&
+		// 	(await web.signUp(this.state))
+		// ) {
+		// 	cookies.set('username', this.state.username);
+		// 	cookies.set('password', this.state.password);
+		// 	navigate('/');
+
+		// 	this.setState({
+		// 		error: false,
+		// 	});
+		// } else {
+		// 	this.setState({
+		// 		error: true,
+		// 	});
+		// }
+
+		if (this.state.username) {
+			const userId = cookies.get('user-id');
+			await web.signUp({ userId, username: this.state.username });
+			window.location.reload();
 
 			this.setState({
 				error: false,
@@ -53,7 +66,7 @@ class SignUp extends Component {
 							});
 						}}
 					/>
-					<Input
+					{/* <Input
 						label="Password"
 						error={this.state.error}
 						type="password"
@@ -62,16 +75,16 @@ class SignUp extends Component {
 								password,
 							});
 						}}
-					/>
+					/> */}
 					<div className="signup-buttons">
 						<Button
 							label="Sign Up"
 							onClick={this.signUp.bind(this)}
 						/>
-						<span>or</span>
+						{/* <span>or</span>
 						<Link to="/login">
 							<Button label="Login" regular />
-						</Link>
+						</Link> */}
 					</div>
 				</div>
 			</div>
@@ -79,4 +92,10 @@ class SignUp extends Component {
 	}
 }
 
-export default SignUp;
+function SignUpWrapper() {
+	const navigate = useNavigate();
+
+	return <SignUp navigate={navigate} />;
+}
+
+export default SignUpWrapper;
