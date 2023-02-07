@@ -16,9 +16,7 @@ class Leaderboard extends Component {
 	async componentDidMount() {
 		const users = await web.getUsers();
 
-		const leaderboard = users.sort((a, b) => {
-			return b.score - a.score;
-		});
+		const leaderboard = users.sort((a, b) => b.score - a.score);
 
 		this.setState({
 			leaderboard: leaderboard,
