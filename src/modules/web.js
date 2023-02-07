@@ -48,7 +48,7 @@ async function login() {
 }
 
 async function addSiteView() {
-	const response = await axios.post('add/site/view', {
+	const response = await axios.post('add/siteView', {
 		userId: cookies.get('user-id'),
 	});
 
