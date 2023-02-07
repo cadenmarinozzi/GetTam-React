@@ -298,7 +298,7 @@ class Board extends Component {
 
 		if (cookieTiles) {
 			cookieTiles = JSON.parse(cookieTiles);
-			console.log(cookieTiles);
+
 			for (let i = 0; i < 4; i++) {
 				this.tiles.push([]);
 

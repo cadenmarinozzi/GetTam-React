@@ -26,7 +26,6 @@ class Leaderboard extends Component {
 	}
 
 	render() {
-		console.log(this.state.leaderboard);
 		return (
 			<>
 				<div className="back-button">
