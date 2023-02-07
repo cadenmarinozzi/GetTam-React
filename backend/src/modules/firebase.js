@@ -20,6 +20,7 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const blacklistRef = ref(database, 'blacklist');
 const usersRef = ref(database, 'users');
+const siteViewsRef = ref(database, 'siteViews');
 
 async function getBlacklist() {
 	const blacklist = await get(blacklistRef);
@@ -49,9 +50,25 @@ async function getUser({ userId }) {
 	return users && users[userId];
 }
 
-async function createUser({ userId, password, username }) {
+async function addSiteView() {
+	const date = new Date();
+	const currentSiteViews = await get(siteViewsRef);
+
+	if (!currentSiteViews.val()[date.toDateString()]) {
+		update(siteViewsRef, {
+			[date.toDateString()]: 1,
+		});
+
+		return;
+	}
+
+	update(siteViewsRef, {
+		[date.toDateString()]: currentSiteViews.val()[date.toDateString()] + 1,
+	});
+}
+
+async function createUser({ userId, username }) {
 	await update(child(usersRef, userId), {
-		// password: sha256(password),
 		username,
 		score: 0,
 		school: 1,
@@ -78,11 +95,10 @@ async function getScoreData({ userId }) {
 	return user && { score: user.score, school: user.school };
 }
 
-async function login({ username, password }) {
+async function login({ username, userId }) {
 	// const user = await getUser({ username });
 
-	// return user && user.password === sha256(password);
-
+	// return user;
 	return true;
 }
 
@@ -96,4 +112,5 @@ module.exports = {
 	updateSchool,
 	getScoreData,
 	getUsers,
+	addSiteView,
 };

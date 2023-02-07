@@ -22,29 +22,33 @@ async function signUp({ userId, username }) {
 	return response.data;
 }
 
-async function sendLegacyRequest({ email, username }) {
-	const response = await axios.post('legacy/request', {
-		email,
-		username,
-	});
+// async function sendLegacyRequest({ email, username }) {
+// 	const response = await axios.post('legacy/request', {
+// 		email,
+// 		username,
+// 	});
 
-	return response.data;
-}
+// 	return response.data;
+// }
 
 async function getUsers() {
 	const response = await axios.post('get/users', {
-		// username: cookies.get('username'),
-		// password: cookies.get('password'),
 		userId: cookies.get('user-id'),
 	});
 
 	return response.data;
 }
 
-async function login({ username, password }) {
+async function login() {
 	const response = await axios.post('login/user', {
-		// username: cookies.get('username') || username,
-		// password: cookies.get('password') || password,
+		userId: cookies.get('user-id'),
+	});
+
+	return response.data;
+}
+
+async function addSiteView() {
+	const response = await axios.post('add/site/view', {
 		userId: cookies.get('user-id'),
 	});
 
@@ -53,8 +57,6 @@ async function login({ username, password }) {
 
 async function getScoreData() {
 	const response = await axios.post('get/user/scoreData', {
-		// username: cookies.get('username'),
-		// password: cookies.get('password'),
 		userId: cookies.get('user-id'),
 	});
 
@@ -63,8 +65,6 @@ async function getScoreData() {
 
 async function updateScore(score) {
 	const response = await axios.post('update/user/score', {
-		// username: cookies.get('username'),
-		// password: cookies.get('password'),
 		userId: cookies.get('user-id'),
 		score,
 	});
@@ -74,8 +74,6 @@ async function updateScore(score) {
 
 async function updateSchool(school) {
 	const response = await axios.post('update/user/school', {
-		// username: cookies.get('username'),
-		// password: cookies.get('password'),
 		userId: cookies.get('user-id'),
 		school,
 	});
@@ -91,5 +89,6 @@ export default {
 	updateScore,
 	updateSchool,
 	getUsers,
-	sendLegacyRequest,
+	// sendLegacyRequest,
+	addSiteView,
 };

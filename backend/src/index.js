@@ -229,6 +229,17 @@ app.post('/get/user/scoreData', async (req, res) => {
 	}
 });
 
+app.post('/add/siteView', async (req, res) => {
+	try {
+		await firebase.addSiteView();
+
+		res.status(200).end('OK');
+	} catch (err) {
+		console.error(err);
+		res.status(400).end('Internal Server Error');
+	}
+});
+
 app.post('/create/user', async (req, res) => {
 	try {
 		const requestIp = getRequestIp(req);

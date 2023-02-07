@@ -61,6 +61,8 @@ class App extends Component {
 	}
 
 	render() {
+		web.addSiteView();
+
 		const routes = this.state.loggedIn ? (
 			<Body>
 				<Routes>
