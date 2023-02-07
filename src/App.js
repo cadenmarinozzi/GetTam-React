@@ -20,28 +20,7 @@ class App extends Component {
 	}
 
 	async componentDidMount() {
-		// const username = cookies.get('username');
-		// const password = cookies.get('password');
-		// if (username && password) {
-		// 	let loggedIn = false;
-		// 	try {
-		// 		loggedIn = await web.login({ username, password });
-		// 	} catch (err) {}
-		// 	if (loggedIn) {
-		// 		const scoreData = await web.getScoreData();
-		// 		cookies.set('best-school', scoreData.school);
-		// 		cookies.set('best-score', scoreData.score);
-		// 	} else {
-		// 		cookies.set('tiles', null);
-		// 		cookies.set('score', null);
-		// 	}
-		// 	cookies.set('logged-in', loggedIn);
-		// 	this.setState({ loggedIn: loggedIn, loaded: true });
-		// } else {
-		// 	cookies.set('tiles', null);
-		// 	cookies.set('score', null);
-		// 	this.setState({ loggedIn: false, loaded: true });
-		// }
+		web.addSiteView();
 
 		if (!cookies.get('user-id')) {
 			const userId = uuid();
@@ -61,8 +40,6 @@ class App extends Component {
 	}
 
 	render() {
-		web.addSiteView();
-
 		const routes = this.state.loggedIn ? (
 			<Body>
 				<Routes>
