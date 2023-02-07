@@ -53,8 +53,9 @@ async function getUser({ userId }) {
 async function addSiteView() {
 	const date = new Date();
 	const currentSiteViews = await get(siteViewsRef);
+	const siteViews = currentSiteViews.exists() && currentSiteViews.val();
 
-	if (!currentSiteViews.val()[date.toDateString()]) {
+	if (!siteViews?.[date.toDateString()]) {
 		update(siteViewsRef, {
 			[date.toDateString()]: 1,
 		});
