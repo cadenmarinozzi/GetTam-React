@@ -1,15 +1,12 @@
-// import UsageChart from './Components/UsageChart';
 import Title from './Components/Title';
-// import GridContainer from './Components/GridContainer';
-// import LeaderboardChart from './Components/LeaderboardChart';
-// import PlayersChart from './Components/PlayersChart';
-// import GameDaysChart from './Components/GameDaysChart';
-// import { InappropriateUsersChart } from './Components/InappropriateUsersChart';
-// import InvalidPlayersChart from './Components/InvalidPlayersChart';
+import GridContainer from './Components/GridContainer';
 import Footer from './Components/Footer';
 import { useState } from 'react';
-import GridContainer from 'Components/GridContainer';
 import ViewsChart from 'Components/ViewsChart';
+import PlayersChart from 'Components/PlayersChart';
+import InvalidPlayersChart from 'Components/InvalidPlayersChart';
+import InappropriateUsersChart from 'Components/InappropriateUsersChart';
+import LeaderboardChart from 'Components/LeaderboardChart';
 
 function App() {
 	let [theme, setTheme] = useState('light');
@@ -20,20 +17,16 @@ function App() {
 				<Title>GetTam Analytics</Title>
 			</Footer>
 
-			{/* <GridContainer>
-				<UsageChart theme={theme} />
-				<LeaderboardChart theme={theme} />
+			<GridContainer>
+				<ViewsChart theme={theme} />
 				<PlayersChart theme={theme} />
-				<GameDaysChart theme={theme} />
-			</GridContainer> */}
-			{/* <GridContainer> */}
-			<ViewsChart theme={theme} />
-			{/* </GridContainer> */}
+				<LeaderboardChart theme={theme} />
+			</GridContainer>
 
-			{/* <GridContainer>
-				<InappropriateUsersChart theme={theme} />
+			<GridContainer>
 				<InvalidPlayersChart theme={theme} />
-			</GridContainer> */}
+				<InappropriateUsersChart theme={theme} />
+			</GridContainer>
 		</>
 	);
 }

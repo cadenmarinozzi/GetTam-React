@@ -1,4 +1,4 @@
-import { getPlayers } from '../../web/firebase';
+import { getPlayers, getUsers } from '../../web/firebase';
 import { PieChart } from '../Chart';
 import filter from '../../web/filter';
 import { Component } from 'react';
@@ -9,15 +9,17 @@ class InappropriateUsersChart extends Component {
 		super(props);
 		this.state = {
 			inappropriateUsers: [],
-			players: []
+			players: [],
 		};
 	}
 
 	async componentDidMount() {
-		const players = Object.values(await getPlayers());
+		const players = Object.values(await getUsers());
 		this.setState({
 			players: players,
-			inappropriateUsers: players.filter(player => filter(player.name))
+			inappropriateUsers: players.filter((player) =>
+				filter(player.username)
+			),
 		});
 	}
 
@@ -30,11 +32,11 @@ class InappropriateUsersChart extends Component {
 					label="Inappropriate User Names"
 					labels={[
 						['Appropriate', `rgba(255, 100, 132, 0.7)`],
-						['Inappropriate', `rgba(135, 132, 200, 0.7)`]
+						['Inappropriate', `rgba(135, 132, 200, 0.7)`],
 					]}
 					data={[
 						this.state.players.length,
-						this.state.inappropriateUsers.length
+						this.state.inappropriateUsers.length,
 					]}
 					thene={this.props.theme}
 				/>
@@ -44,7 +46,7 @@ class InappropriateUsersChart extends Component {
 }
 
 InappropriateUsersChart.propTypes = {
-	theme: PropTypes.string
+	theme: PropTypes.string,
 };
 
-export { InappropriateUsersChart };
+export default InappropriateUsersChart;

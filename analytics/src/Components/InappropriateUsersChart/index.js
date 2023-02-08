@@ -1,1 +1,1 @@
-export { InappropriateUsersChart } from './InappropriateUsersChart.js';
+export { default } from './InappropriateUsersChart.js';

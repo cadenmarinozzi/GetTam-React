@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { DataChart } from '../Chart';
-import { getLeaderboard } from '../../web/firebase';
+import { getLeaderboard, getUsers } from '../../web/firebase';
 import validatePlayer from '../../web/validate';
 import PropTypes from 'prop-types';
 
@@ -10,21 +10,23 @@ class LeaderboardChart extends Component {
 
 		this.state = {
 			labels: [],
-			data: []
+			data: [],
 		};
 	}
 
 	async componentDidMount() {
-		const leaderboard = (await getLeaderboard())
+		const leaderboard = (await getUsers())
+			.slice(0, 100)
 			.reverse()
-			.filter(player => !validatePlayer(player)); // We reverse the data so it's in descending order
+			.sort((a, b) => a.score - b.score)
+			.filter((player) => !validatePlayer(player)); // We reverse the data so it's in descending order
 
 		this.setState({
 			labels: leaderboard.map(
 				(player, index) =>
-					`${player.name} (${leaderboard.length - index})`
+					`${player.username} (${leaderboard.length - index})`
 			),
-			data: leaderboard.map(player => player.score)
+			data: leaderboard.map((player) => player.score),
 		});
 	}
 
@@ -46,7 +48,7 @@ class LeaderboardChart extends Component {
 }
 
 LeaderboardChart.propTypes = {
-	theme: PropTypes.string
+	theme: PropTypes.string,
 };
 
 export default LeaderboardChart;

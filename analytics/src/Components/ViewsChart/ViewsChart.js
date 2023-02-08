@@ -33,7 +33,6 @@ class ViewsChart extends Component {
 
 	async componentDidMount() {
 		const siteViews = await getSiteViews();
-		console.log(siteViews);
 		const labels = Object.entries(siteViews)
 			// Map the values to the parsed date
 			.map(([key, value]) => parseDate(key, value))

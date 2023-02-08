@@ -1,8 +1,8 @@
 function validatePlayer(player) {
 	return !(
 		player &&
-		player.name &&
-		player.id &&
+		player.username &&
+		player.userId &&
 		player.score &&
 		player.score >= 0 &&
 		player.score < 3932156 &&

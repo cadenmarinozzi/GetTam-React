@@ -115,30 +115,30 @@ app.post('/update/user/score', async (req, res) => {
 
 app.post('/get/users', async (req, res) => {
 	try {
-		const requestIp = getRequestIp(req);
+		// const requestIp = getRequestIp(req);
 		const user = req.body;
 
-		if (!validation.validateIp(requestIp)) {
-			return res.status(400).end('Invalid IP');
-		}
+		// if (!validation.validateIp(requestIp)) {
+		// 	return res.status(400).end('Invalid IP');
+		// }
 
-		if (!validation.validateUser(user)) {
-			return res.status(400).end('Invalid User');
-		}
+		// if (!validation.validateUser(user)) {
+		// 	return res.status(400).end('Invalid User');
+		// }
 
-		if (await firebase.isUserBlacklisted([requestIp, user.username])) {
-			return res.status(403).end('User Is Blacklisted');
-		}
+		// if (await firebase.isUserBlacklisted([requestIp, user.username])) {
+		// 	return res.status(403).end('User Is Blacklisted');
+		// }
 
-		if (!(await firebase.userExists(user))) {
-			return res.status(400).end('User Does Not Exist');
-		}
+		// if (!(await firebase.userExists(user))) {
+		// 	return res.status(400).end('User Does Not Exist');
+		// }
 
-		if (!(await firebase.login(user))) {
-			return res.status(403).end('User Is Not Logged In');
-		}
+		// if (!(await firebase.login(user))) {
+		// 	return res.status(403).end('User Is Not Logged In');
+		// }
 
-		const users = await firebase.getUsers(user);
+		const users = await firebase.getUsers();
 		let clientUsers = [];
 
 		for (const [userId, user] of Object.entries(users)) {

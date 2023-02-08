@@ -1,4 +1,4 @@
-import { getPlayers } from '../../web/firebase';
+import { getPlayers, getUsers } from '../../web/firebase';
 import { Component } from 'react';
 import { DataChart } from '../Chart';
 import validatePlayer from '../../web/validate';
@@ -10,20 +10,21 @@ class PlayersChart extends Component {
 
 		this.state = {
 			labels: [],
-			data: []
+			data: [],
 		};
 	}
 
 	async componentDidMount() {
-		const players = Object.values(await getPlayers())
-			.filter(player => !validatePlayer(player))
+		const players = Object.values(await getUsers())
+			.filter((player) => !validatePlayer(player))
 			.sort((a, b) => a.score - b.score); // Remove invalid players and sort by score
 
 		this.setState({
 			labels: players.map(
-				(player, index) => `${player.name} (${players.length - index})`
+				(player, index) =>
+					`${player.username} (${players.length - index})`
 			),
-			data: players.map(player => player.score)
+			data: players.map((player) => player.score),
 		});
 	}
 
@@ -45,7 +46,7 @@ class PlayersChart extends Component {
 }
 
 PlayersChart.propTypes = {
-	theme: PropTypes.string
+	theme: PropTypes.string,
 };
 
 export default PlayersChart;
