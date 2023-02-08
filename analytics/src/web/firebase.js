@@ -1,5 +1,4 @@
 import axios from 'axios';
-import cookies from './cookies';
 
 const baseUrl = 'https://gettam.herokuapp.com/';
 

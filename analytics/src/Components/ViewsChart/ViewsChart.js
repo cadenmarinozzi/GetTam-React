@@ -1,7 +1,6 @@
-import { getGameDates } from '../../web/firebase';
 import { Component } from 'react';
 import { DataChart } from '../Chart';
-import PropTypes from 'prop-types';
+import { getSiteViews } from 'web/firebase';
 
 /**
  *
@@ -9,36 +8,33 @@ import PropTypes from 'prop-types';
  * @return {Object} An object containing the parsed date
  */
 function parseDate(date, value) {
-	const parts = date.split('-'); // Split the date into the day, month, and testing flag
-
-	const month = parseInt(parts[0]);
-	const day = parseInt(parts[1]);
-
-	const dateData = new Date(2022, month, day); // Create the date object
+	const dateData = new Date(date); // Create the date object
+	const month = dateData.getMonth();
+	const day = dateData.getDate();
 
 	return {
 		month: month,
 		day: day,
-		gamesPlayed: value,
-		testing: parts[2] === 'testing',
+		siteViews: value,
 		date: dateData,
 		comparativeDate: dateData[Symbol.toPrimitive]('number'), // Get the numerical representation of the date
 	};
 }
 
-class UsageChart extends Component {
+class ViewsChart extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			labels: [],
 			data: [],
+			labels: [],
 		};
 	}
 
 	async componentDidMount() {
-		const gamesDates = await getGameDates();
-		const labels = Object.values(gamesDates)
+		const siteViews = await getSiteViews();
+		console.log(siteViews);
+		const labels = Object.entries(siteViews)
 			// Map the values to the parsed date
 			.map(([key, value]) => parseDate(key, value))
 			// Sort the dates from oldest to newest
@@ -48,7 +44,7 @@ class UsageChart extends Component {
 			labels: labels.map(
 				(date) => date.date.toDateString().replace('2022', '') // ew
 			),
-			data: labels.map((dateData) => dateData.gamesPlayed),
+			data: labels.map((dateData) => dateData.siteViews),
 		});
 	}
 
@@ -68,8 +64,4 @@ class UsageChart extends Component {
 	}
 }
 
-UsageChart.propTypes = {
-	theme: PropTypes.string,
-};
-
-export default UsageChart;
+export default ViewsChart;
