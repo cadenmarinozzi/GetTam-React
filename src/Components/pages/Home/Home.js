@@ -42,6 +42,29 @@ class Home extends Component {
 				resetBoard: false, // This is so bad lmao
 			});
 		}
+
+		let shiftDown = false;
+		let spaceDown = false;
+
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Shift') shiftDown = true;
+			if (e.key === ' ') {
+				spaceDown = true;
+
+				e.preventDefault();
+			}
+
+			if (shiftDown && spaceDown) {
+				this.setState({
+					resetBoard: true,
+				});
+			}
+		});
+
+		document.addEventListener('keyup', (e) => {
+			if (e.key === 'Shift') shiftDown = false;
+			if (e.key === ' ') spaceDown = false;
+		});
 	}
 
 	render() {
@@ -65,7 +88,12 @@ class Home extends Component {
 						}
 					/>
 				</div>
+
 				<div className="board-container">
+					<span>
+						Press the Shift and Space key together to reset the
+						board.
+					</span>
 					<div className="board" id="board">
 						<Board
 							resetBoard={this.state.resetBoard}
