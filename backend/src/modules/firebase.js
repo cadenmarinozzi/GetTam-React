@@ -96,6 +96,11 @@ async function getScoreData({ userId }) {
 	return user && { score: user.score, school: user.school };
 }
 
+async function getSiteViews() {
+	const siteViews = await get(siteViewsRef);
+
+	return siteViews.exists() && siteViews.val();
+}
 async function login({ username, userId }) {
 	// const user = await getUser({ username });
 
@@ -114,4 +119,5 @@ module.exports = {
 	getScoreData,
 	getUsers,
 	addSiteView,
+	getSiteViews,
 };

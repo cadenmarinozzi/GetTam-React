@@ -240,6 +240,17 @@ app.post('/add/siteView', async (req, res) => {
 	}
 });
 
+app.post('/get/siteViews', async (req, res) => {
+	try {
+		const siteViews = await firebase.getSiteViews();
+
+		res.status(200).json(siteViews);
+	} catch (err) {
+		console.error(err);
+		res.status(400).end('Internal Server Error');
+	}
+});
+
 app.post('/create/user', async (req, res) => {
 	try {
 		const requestIp = getRequestIp(req);
