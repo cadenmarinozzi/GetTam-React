@@ -1,24 +1,13 @@
 {
   "files": {
-    "main.css": "/GetTam-React/static/css/main.40c6132f.css",
-    "main.js": "/GetTam-React/static/js/main.d1b3170a.js",
-    "static/media/tam.png": "/GetTam-React/static/media/tam.99a3bc2def0d38d226a7.png",
-    "static/media/sanMarin.png": "/GetTam-React/static/media/sanMarin.8eab528ceba1953c136f.png",
-    "static/media/branson.png": "/GetTam-React/static/media/branson.2c142abc555643256147.png",
-    "static/media/GetTamLogoSmall.ico": "/GetTam-React/static/media/GetTamLogoSmall.8a95331985957a6cb9b8.ico",
-    "static/media/redwood.png": "/GetTam-React/static/media/redwood.0fcabec69ff18c0e6b85.png",
-    "static/media/tamiscal.png": "/GetTam-React/static/media/tamiscal.9b86db59922b5e902dcb.png",
-    "static/media/terraLinda.png": "/GetTam-React/static/media/terraLinda.32d7084d7916edd728ca.png",
-    "static/media/archie.jpeg": "/GetTam-React/static/media/archie.000b8a20e80b3d7c9428.jpeg",
-    "static/media/novato.png": "/GetTam-React/static/media/novato.823149baf9c08ab75fc7.png",
-    "static/media/mc.png": "/GetTam-React/static/media/mc.9eaba34f3ce4c51318aa.png",
-    "static/media/sanRafael.jpeg": "/GetTam-React/static/media/sanRafael.dce665d6a4ccf57ba6f7.jpeg",
-    "index.html": "/GetTam-React/index.html",
-    "main.40c6132f.css.map": "/GetTam-React/static/css/main.40c6132f.css.map",
-    "main.d1b3170a.js.map": "/GetTam-React/static/js/main.d1b3170a.js.map"
+    "main.css": "/GetTam-Analytics/static/css/main.a013cc62.css",
+    "main.js": "/GetTam-Analytics/static/js/main.f6f24863.js",
+    "index.html": "/GetTam-Analytics/index.html",
+    "main.a013cc62.css.map": "/GetTam-Analytics/static/css/main.a013cc62.css.map",
+    "main.f6f24863.js.map": "/GetTam-Analytics/static/js/main.f6f24863.js.map"
   },
   "entrypoints": [
-    "static/css/main.40c6132f.css",
-    "static/js/main.d1b3170a.js"
+    "static/css/main.a013cc62.css",
+    "static/js/main.f6f24863.js"
   ]
 }
