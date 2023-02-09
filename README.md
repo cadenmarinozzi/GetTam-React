@@ -39,6 +39,8 @@ Run the frontend using `npm start` in the root directory.
 
 # Deploying
 
+Deploying requires having access to the Firebase, Heroku, and GitHub pages services.
+
 ### Backend
 
 To deploy the backend, add any new files to git, commit the files, and then run `git push heroku master` to deploy the changed files.
@@ -46,6 +48,10 @@ To deploy the backend, add any new files to git, commit the files, and then run 
 ### Frontend
 
 Deploy the GetTam-React frontend by running `npm run deploy` in the root directory. This will build the frontend and deploy it to the firebase hosting service.
+
+### Analytics
+
+Deploy the Analytics by running `npm run deploy` in the root directory. This will build the analytics and deploy it to the GitHub pages service.
 
 # LICENSE
 
