@@ -50,21 +50,33 @@ async function getUser({ userId }) {
 	return users && users[userId];
 }
 
+function getDateString() {
+	return new Date()
+		.toLocaleString('en-US', {
+			timeZone: 'America/Los_Angeles',
+			weekday: 'short',
+			year: 'numeric',
+			month: 'short',
+			day: '2-digit',
+		})
+		.replaceAll(',', '');
+}
+
 async function addSiteView() {
-	const date = new Date();
+	const dateString = getDateString();
 	const currentSiteViews = await get(siteViewsRef);
 	const siteViews = currentSiteViews.exists() && currentSiteViews.val();
 
-	if (!siteViews?.[date.toDateString()]) {
+	if (!siteViews?.[dateString]) {
 		update(siteViewsRef, {
-			[date.toDateString()]: 1,
+			[dateString]: 1,
 		});
 
 		return;
 	}
 
 	update(siteViewsRef, {
-		[date.toDateString()]: currentSiteViews.val()[date.toDateString()] + 1,
+		[dateString]: currentSiteViews.val()[dateString] + 1,
 	});
 }
 
