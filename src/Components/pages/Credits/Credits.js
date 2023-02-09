@@ -41,10 +41,6 @@ function Credits() {
 						<h2>Adnan Ashraf</h2>
 						<h4>GetTam V1, Back-End</h4>
 					</div>
-					<div className="credits-item">
-						<h2>Mohamad Mamoon, Garrett Mason</h2>
-						<h4>Research and Testing</h4>
-					</div>
 					<div className="credits-item built-with">
 						<h2 className="built-with-title">Built With</h2>
 						<img

@@ -88,7 +88,6 @@ class Home extends Component {
 						}
 					/>
 				</div>
-
 				<div className="board-container">
 					<span>
 						Press the Shift and Space key together to reset the

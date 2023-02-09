@@ -39,6 +39,9 @@ class Scores extends Component {
 							{this.props.currentSchool}
 						</div>
 					</div>
+					<div className="score-button">
+						Click to view leaderboard
+					</div>
 				</div>
 			</Link>
 		);
