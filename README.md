@@ -12,13 +12,16 @@ Make sure you have node.js installed. You can install it from the [website](`nod
 
 ```
 # Clone the repository:
-git clone https://gitub.com/nekumelon/GetTam-React.git
+git clone https://github.com/nekumelon/GetTam-React.git
 
 # cd into the directory and install the required modules:
 cd GetTam-React && npm install
 
 # cd into the backend directory and install the required backend modules:
 cd backend && npm install
+
+# cd into the analytics directory and install the required analytics modules:
+cd analytics && npm install
 ```
 
 Add the firebase config to the backend directory in `.env` using the template in `.env.example`.
