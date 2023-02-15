@@ -45,51 +45,22 @@ async function getDatabaseData(ref) {
 }
 
 async function mainRun() {
-	let blacklist = await getDatabaseData(blacklistRef);
+	// let blacklist = await getDatabaseData(blacklistRef);
 	let users = await getDatabaseData(usersRef);
 	let siteViews = await getDatabaseData(siteViewsRef);
 
-	for (const uid in users) {
-		const user = users[uid];
+	// for (const [userId, user] of Object.entries(users)) {
+	// 	if (!user) continue;
 
-		if (!user) continue;
-		if (!user.name) continue;
+	// 	const userDoc = doc(usersCollection, userId);
+	// 	await setDoc(userDoc, user);
+	// }
 
-		const userDoc = doc(usersCollection, user.name);
+	// console.log('Transferred users');
 
-		await setDoc(userDoc, {
-			...user,
-			uid,
-		});
-	}
+	setDoc(doc(siteViewsCollection, 'daily'), siteViews);
 
-	for (const uid in blacklist) {
-		const user = blacklist[uid];
-
-		if (!user) continue;
-		if (!user.name) continue;
-
-		const userDoc = doc(blacklistCollection, user.name);
-
-		await setDoc(userDoc, {
-			...user,
-			uid,
-		});
-	}
-
-	for (const uid in siteViews) {
-		const user = siteViews[uid];
-
-		if (!user) continue;
-		if (!user.name) continue;
-
-		const userDoc = doc(siteViewsCollection, user.name);
-
-		await setDoc(userDoc, {
-			...user,
-			uid,
-		});
-	}
+	console.log('Transferred siteViews');
 }
 
 mainRun();
