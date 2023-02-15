@@ -1,13 +1,9 @@
 {
-    "name": "gettam-migrator",
-    "displayName": "GetTam Migrator Service Script",
-    "main": "src/index.js",
-    "scripts": {
-        "start": "node ."
-    },
-    "dependencies": {
-        "dotenv": "^16.0.2",
-        "firebase": "^9.10.0",
-        "nodemailer": "^6.7.8"
-    }
+	"name": "gettam-migrator",
+	"displayName": "GetTam Migrator Service Script",
+	"dependencies": {
+		"dotenv": "^16.0.2",
+		"firebase": "^9.10.0",
+		"nodemailer": "^6.7.8"
+	}
 }
