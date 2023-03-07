@@ -2,6 +2,7 @@ import axios from 'axios';
 import cookies from './cookies';
 
 const baseUrl = 'https://gettam.herokuapp.com/';
+// const baseUrl = 'http://localhost:5000/';
 
 axios.defaults.baseURL = baseUrl;
 
@@ -56,11 +57,15 @@ async function addSiteView() {
 }
 
 async function getScoreData() {
-	const response = await axios.post('get/user/scoreData', {
-		userId: cookies.get('user-id'),
-	});
+	try {
+		const response = await axios.post('get/user/scoreData', {
+			userId: cookies.get('user-id'),
+		});
 
-	return response.data;
+		return response.data;
+	} catch (error) {
+		return null;
+	}
 }
 
 async function updateScore(score) {

@@ -1,7 +1,9 @@
 const express = require('express');
 const { getRequestIp } = require('./modules/utils.js');
 const validation = require('./modules/validation.js');
-const firebase = require('./modules/firebase.js');
+// const firebase = require('./modules/firebase.js');
+
+const firebase = require('./modules/firebaseLegacy.js');
 const sendEmail = require('./modules/mail');
 const cors = require('cors');
 
@@ -11,7 +13,7 @@ app.use(cors());
 app.options('*', cors());
 
 app.get('*', (req, res) => {
-	res.status(200).end('https://lankmann.github.io/GetTam/');
+	res.status(200).end('https://gettamgame.com');
 });
 
 app.post('/legacy/request', async (req, res) => {

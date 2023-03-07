@@ -2,15 +2,7 @@ const constants = require('./constants');
 const { sha256 } = require('./utils');
 const { initializeApp } = require('firebase/app');
 const { config } = require('dotenv');
-const {
-	getFirestore,
-	collection,
-	doc,
-	setDoc,
-	updateDoc,
-	getDoc,
-	getDocs,
-} = require('firebase/firestore');
+const { ref, get, getDatabase, update, child } = require('firebase/database');
 
 config();
 
@@ -25,15 +17,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const database = getFirestore(app);
-const blacklistRef = collection(database, 'blacklist');
-const usersRef = collection(database, 'users');
-const siteViewsRef = collection(database, 'siteViews');
+const database = getDatabase(app);
+const blacklistRef = ref(database, 'blacklist');
+const usersRef = ref(database, 'users');
+const siteViewsRef = ref(database, 'siteViews');
 
 async function getBlacklist() {
-	const blacklist = await getDoc(doc(database, 'blacklist', 'identifiers'));
+	const blacklist = await get(blacklistRef);
 
-	return blacklist.exists() ? blacklist.data() : [];
+	return blacklist.exists() ? blacklist.val() : [];
 }
 
 async function isUserBlacklisted(identifiers) {
@@ -47,32 +39,15 @@ async function isUserBlacklisted(identifiers) {
 }
 
 async function getUsers() {
-	// const users = await getDoc(database, 'users');
+	const users = await get(usersRef);
 
-	// return users.exists() && users.data();
-	const users = await getDocs(usersRef);
-
-	// return users.docs.reduce((acc, user) => {
-	// 	acc[user.userId] = user.data();
-
-	// 	return acc;
-	// }, {});
-	const usersData = {};
-
-	for (const user of users.docs) {
-		usersData[user.id] = user.data();
-	}
-
-	return usersData;
+	return users.exists() && users.val();
 }
 
 async function getUser({ userId }) {
-	// const users = await getUsers();
+	const users = await getUsers();
 
-	// return users && users[userId];
-	const user = await getDoc(doc(database, 'users', userId));
-
-	return user.exists() && user.data();
+	return users && users[userId];
 }
 
 function getDateString() {
@@ -89,24 +64,24 @@ function getDateString() {
 
 async function addSiteView() {
 	const dateString = getDateString();
-	const currentSiteViews = await getDoc(doc(database, 'siteViews', 'daily'));
-	const siteViews = currentSiteViews.exists() && currentSiteViews.data();
+	const currentSiteViews = await get(siteViewsRef);
+	const siteViews = currentSiteViews.exists() && currentSiteViews.val();
 
 	if (!siteViews?.[dateString]) {
-		updateDoc(doc(database, 'siteViews', 'daily'), {
+		update(siteViewsRef, {
 			[dateString]: 1,
 		});
 
 		return;
 	}
 
-	updateDoc(doc(database, 'siteViews', 'daily'), {
-		[dateString]: currentSiteViews.data()[dateString] + 1,
+	update(siteViewsRef, {
+		[dateString]: currentSiteViews.val()[dateString] + 1,
 	});
 }
 
 async function createUser({ userId, username }) {
-	await updateDoc(doc(database, 'users', userId), {
+	await update(child(usersRef, userId), {
 		username,
 		score: 0,
 		school: 1,
@@ -120,11 +95,11 @@ async function userExists({ userId }) {
 }
 
 async function updateScore({ userId, score }) {
-	await updateDoc(doc(database, 'users', userId), { score });
+	await update(child(usersRef, userId), { score });
 }
 
 async function updateSchool({ userId, school }) {
-	await updateDoc(doc(database, 'users', userId), { school });
+	await update(child(usersRef, userId), { school });
 }
 
 async function getScoreData({ userId }) {
@@ -134,9 +109,9 @@ async function getScoreData({ userId }) {
 }
 
 async function getSiteViews() {
-	const siteViews = await getDoc(doc(database, 'siteViews', 'daily'));
+	const siteViews = await get(siteViewsRef);
 
-	return siteViews.exists() && siteViews.data();
+	return siteViews.exists() && siteViews.val();
 }
 
 async function login({ username, userId }) {

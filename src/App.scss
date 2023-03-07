@@ -2,36 +2,39 @@
 @use 'colors.scss' as *;
 
 .error-container {
-    position: absolute;
+	position: absolute;
 
-    top: 50%;
-    left: 50%;
+	top: 50%;
+	left: 50%;
 
-    transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 
-    align-items: center;
+	align-items: center;
 
-    gap: 10px;
+	gap: 10px;
 
-    border-top: 10px solid $border-color;
-    border-inline: 1px solid $border-color;
-    
-    border-radius: $border-radius-small;
+	border-top: 10px solid $border-color;
+	border-inline: 1px solid $border-color;
 
-    padding: 20px;
+	border-radius: $border-radius-small;
 
-    box-shadow: 5px 0px 3px $border-color;
+	padding: 20px;
+
+	box-shadow: 5px 0px 3px $border-color;
 }
 
+.content {
+	padding-bottom: 100px;
+}
 
 .back-button {
-    position: fixed;
-    
-    top: 0px;
-    left: 0px;
-    
-    margin: 20px;
+	position: fixed;
+
+	top: 0px;
+	left: 0px;
+
+	margin: 20px;
 }

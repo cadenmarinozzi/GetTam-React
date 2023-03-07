@@ -3,6 +3,7 @@ const {
 	collection,
 	doc,
 	setDoc,
+	setDocs,
 	getDoc,
 } = require('firebase/firestore');
 const {
@@ -49,16 +50,16 @@ async function mainRun() {
 	let users = await getDatabaseData(usersRef);
 	let siteViews = await getDatabaseData(siteViewsRef);
 
-	// for (const [userId, user] of Object.entries(users)) {
-	// 	if (!user) continue;
+	for (const [userId, user] of Object.entries(users)) {
+		if (!user) continue;
 
-	// 	const userDoc = doc(usersCollection, userId);
-	// 	await setDoc(userDoc, user);
-	// }
+		const userDoc = doc(firestore, 'users', userId);
+		await setDoc(userDoc, user);
+	}
 
-	// console.log('Transferred users');
+	console.log('Transferred users');
 
-	setDoc(doc(siteViewsCollection, 'daily'), siteViews);
+	await setDoc(doc(firestore, 'siteViews', 'daily'), siteViews);
 
 	console.log('Transferred siteViews');
 }

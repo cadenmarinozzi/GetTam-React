@@ -33,5 +33,9 @@ function set(name, value) {
 	document.cookie = `${name}=${value}; path=/`;
 }
 
+function remove(name) {
+	document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
+
 // eslint-disable-next-line
-export default { get, set };
+export default { get, set, remove };

@@ -11,6 +11,9 @@ import Credits from 'Components/pages/Credits';
 import { v4 as uuid } from 'uuid';
 import LegacyRequest from 'Components/pages/LegacyRequest';
 import './App.scss';
+import Footer from 'Components/containers/Footer';
+import TermsAndConditions from 'Components/pages/TermsAndConditions/TermsAndConditions';
+import PrivacyPolicy from 'Components/pages/PrivacyPolicy';
 
 class App extends Component {
 	constructor() {
@@ -32,6 +35,15 @@ class App extends Component {
 		} else {
 			const userId = cookies.get('user-id');
 			const scoreData = await web.getScoreData(userId);
+
+			if (!scoreData) {
+				const userId = uuid();
+				cookies.set('user-id', userId);
+				this.setState({ loaded: true });
+
+				return;
+			}
+
 			cookies.set('best-school', scoreData.school);
 			cookies.set('best-score', scoreData.score);
 
@@ -46,13 +58,22 @@ class App extends Component {
 					<Route path="*" element={<Home />} />
 					<Route path="/leaderboard" element={<Leaderboard />} />
 					<Route path="/credits" element={<Credits />} />
+					<Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+					<Route
+						path="/termsAndConditions"
+						element={<TermsAndConditions />}
+					/>
 				</Routes>
 			</Body>
 		) : (
 			<Routes>
 				<Route path="*" element={<SignUp />} />
-				{/* <Route path="/login" element={<Login />} /> */}
 				<Route path="/signUp" element={<SignUp />} />
+				<Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+				<Route
+					path="/termsAndConditions"
+					element={<TermsAndConditions />}
+				/>
 				<Route
 					path="/legacy-request"
 					element={
@@ -64,7 +85,14 @@ class App extends Component {
 			</Routes>
 		);
 
-		return this.state.loaded && <BrowserRouter>{routes}</BrowserRouter>;
+		return (
+			this.state.loaded && (
+				<BrowserRouter>
+					<div className="content">{routes}</div>
+					<Footer />
+				</BrowserRouter>
+			)
+		);
 	}
 }
 
