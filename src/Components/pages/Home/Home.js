@@ -15,6 +15,8 @@ import web from 'modules/web';
 import { Link } from 'react-router-dom';
 import './Home.scss';
 
+const changelog = 'Reworked firebase backend';
+
 class Home extends Component {
 	constructor() {
 		super();
@@ -93,6 +95,7 @@ class Home extends Component {
 						Press the Shift and Space key together to reset the
 						board.
 					</span>
+					<span className="changelog">Changelog: {changelog}</span>
 					<div className="board" id="board">
 						<Board
 							resetBoard={this.state.resetBoard}

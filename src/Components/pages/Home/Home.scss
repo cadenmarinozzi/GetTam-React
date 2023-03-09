@@ -116,11 +116,18 @@
 
 		align-items: center;
 
+		gap: 10px;
+
 		.board {
 			width: 616px;
 			height: 616px;
 
 			margin-block: 20px;
+			margin-top: 10px;
+		}
+
+		.changelog {
+			color: $border-color;
 		}
 	}
 }
