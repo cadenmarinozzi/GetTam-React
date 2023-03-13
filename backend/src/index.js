@@ -1,9 +1,9 @@
 const express = require('express');
 const { getRequestIp } = require('./modules/utils.js');
 const validation = require('./modules/validation.js');
-// const firebase = require('./modules/firebase.js');
+const firebase = require('./modules/firebase.js');
 
-const firebase = require('./modules/firebaseLegacy.js');
+// const firebase = require('./modules/firebaseLegacy.js');
 const sendEmail = require('./modules/mail');
 const cors = require('cors');
 
@@ -270,13 +270,13 @@ app.post('/create/user', async (req, res) => {
 			return res.status(403).end('User Is Blacklisted');
 		}
 
-		if (!(await firebase.userExists(user))) {
-			await firebase.createUser(user);
-
-			return res.status(200).end('OK');
+		if (await firebase.userExists(user)) {
+			return res.status(400).end('User already exists');
 		}
 
-		res.status(400).end('User already exists');
+		await firebase.createUser(user);
+
+		return res.status(200).end('OK');
 	} catch (err) {
 		console.error(err);
 		res.status(400).end('Internal Server Error');

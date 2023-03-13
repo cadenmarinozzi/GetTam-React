@@ -50,6 +50,8 @@ async function mainRun() {
 	let users = await getDatabaseData(usersRef);
 	let siteViews = await getDatabaseData(siteViewsRef);
 
+	// Create firestore users collection if it doesn't exist
+
 	for (const [userId, user] of Object.entries(users)) {
 		if (!user) continue;
 

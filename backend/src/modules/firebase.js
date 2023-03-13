@@ -106,7 +106,7 @@ async function addSiteView() {
 }
 
 async function createUser({ userId, username }) {
-	await updateDoc(doc(database, 'users', userId), {
+	await setDoc(doc(database, 'users', userId), {
 		username,
 		score: 0,
 		school: 1,
