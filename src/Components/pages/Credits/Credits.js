@@ -20,7 +20,7 @@ function Credits() {
 				</div>
 				<div className="credits-list">
 					<div className="credits-item">
-						<a href="https://github.com/nekumelon">
+						<a href="https://github.com/cadenmarinozzi">
 							<h2>Caden Marinozzi</h2>
 						</a>
 						<h4>GetTam V2, Front-End, Back-End, Security</h4>
